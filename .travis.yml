@@ -1,0 +1,17 @@
+language: python
+python:
+  - "3.7"
+  - "3.8"
+  - "3.9"
+addons:
+  apt:
+    update: true
+install:
+  - pip install pip -U
+  - pip install -r requirements-dev.txt -U
+script:
+  - ./analyse-source-code.sh
+after_success:
+  - coveralls
+notifications:
+  email: false

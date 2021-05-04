@@ -1,0 +1,13 @@
+[flake8]
+min_python_version = 3.6.0
+max_complexity = 10
+max-line-length = 79
+inline-quotes = double
+max-annotations-complexity = 4
+max-function-length = 50
+statistics = True
+count = True
+eradicate-aggressive = True
+pytest-parametrize-names-type = csv
+pytest-parametrize-values-type = tuple
+ignore = I100, I201, ANN101, ANN102
