@@ -33,7 +33,8 @@
 
 ```bash
 git clone git@github.com/vyahello/fast-weather-api.git
-python -m venv venv && . venv/bin/activate
+python -m venv venv
+. venv/bin/activate
 pip install -r requirements.txt
 python -m weather
 ```

@@ -1,0 +1,1 @@
+"""Package contains API routes."""
