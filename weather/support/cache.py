@@ -1,14 +1,16 @@
 """Module contains caching API."""
 import datetime
-from typing import Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
-__cache = {}
+__cache: Dict[Tuple[str, ...], Any] = {}
 lifetime_in_hours: float = 1.0
 
 
-def get_weather(city: str, country: str, units: str) -> Optional[dict]:
-    key: tuple = __create_key(city, country, units)
-    data: dict = __cache.get(key)
+def get_weather(
+    city: str, country: str, units: str
+) -> Optional[Dict[str, Any]]:
+    key = __create_key(city, country, units)
+    data = __cache.get(key)
     if not data:
         return None
 
@@ -21,21 +23,17 @@ def get_weather(city: str, country: str, units: str) -> Optional[dict]:
     return None
 
 
-def set_weather(city: str, country: str, units: str, value: dict) -> None:
+def set_weather(
+    city: str, country: str, units: str, value: Optional[Dict[str, Any]]
+) -> None:
     key = __create_key(city, country, units)
-    data = {
-        'time': datetime.datetime.now(),
-        'value': value
-    }
-    __cache[key] = data
+    __cache[key] = {'time': datetime.datetime.now(), 'value': value}
     __clean_out_of_date()
 
 
-def __create_key(
-        city: str, country: str, units: str) -> Tuple[str, str, str]:
+def __create_key(city: str, country: str, units: str) -> Tuple[str, str, str]:
     if not city or not country or not units:
-        raise Exception("City, country, and units are required")
-
+        raise RuntimeError("City, country, and units are required")
     return city.strip().lower(), country.strip().lower(), units.strip().lower()
 
 

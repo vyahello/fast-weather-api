@@ -25,7 +25,7 @@ weather_app = fastapi.FastAPI()
 @dataclass
 class WeatherEndpoint:
     host: str = WEATHER_HOST
-    port: str = WEATHER_PORT
+    port: int = WEATHER_PORT
 
 
 def __configure_api_keys() -> None:

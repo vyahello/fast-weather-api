@@ -18,8 +18,11 @@ async def add_report(description: str, location: Location) -> Report:
         id=str(uuid.uuid4),
         description=description,
         location=location,
-        created_date=datetime.now())
+        created_date=datetime.now(),
+    )
 
     __reports.append(report)
-    __reports.sort(key=lambda report_: report_.created_date, reverse=True)
+    __reports.sort(
+        key=lambda report_: report_.created_date, reverse=True  # type: ignore
+    )
     return report

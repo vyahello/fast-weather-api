@@ -16,4 +16,5 @@ async def home(request: Request) -> Response:
     """Returns a route to home page."""
     return templates.TemplateResponse(
         name='home/index.html',
-        context={'request': request, 'events': await report.reports()})
+        context={'request': request, 'events': await report.reports()},
+    )

@@ -13,5 +13,5 @@ class ReportSubmittal(BaseModel):
 
 
 class Report(ReportSubmittal):
-    id: str
+    id_: str
     created_date: Optional[datetime]
