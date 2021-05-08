@@ -1,9 +1,7 @@
-from typing import Optional
-
+"""Module contains city/country location API."""
 from pydantic import BaseModel
 
 
 class Location(BaseModel):
     city: str
-    state: Optional[str] = None
     country: str = 'US'

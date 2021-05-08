@@ -1,23 +1,54 @@
-from typing import Optional
+from typing import Optional, Tuple
+
 import httpx
+from httpx import Response
+
+from weather.support import cache
+from weather.models.validation import ValidationError
 
 api_key: Optional[str] = None
 
 
-async def get_report_async(
-    city: str, state: Optional[str], country: str, units: str
-) -> dict:
-    query = (f'{city},{country}', f'{city},{state},{country}')[bool(state)]
+def _report_url(query: str, api_key_: str, units: str) -> str:
+    return f'https://api.openweathermap.org/data' \
+           f'/2.5/weather?q={query}&appid={api_key_}&units={units}'
 
-    url = (
-        f'https://api.openweathermap.org/data/2.5/weather?q={query}'
-        f'&appid={api_key}&units={units}'
-    )
 
+async def report(
+        city: str,
+        country: str,
+        units: str) -> dict:
+    city, country, units = validate_units(city, country, units)
+    if forecast := cache.get_weather(city, country, units):
+        return forecast
+    query = f'{city},{country}'
     async with httpx.AsyncClient() as client:
-        response = await client.get(url)
-        response.raise_for_status()
-
-    data = response.json()
-    forecast = data['main']
+        response: Response = await client.get(
+            url=_report_url(query, api_key, units))
+        if response.status_code != 200:
+            raise ValidationError(response.text, response.status_code)
+    forecast = response.json()['main']
+    cache.set_weather(city, country, units, forecast)
     return forecast
+
+
+def validate_units(
+        city: str, country: Optional[str], units: str) -> \
+        Tuple[str, str, str]:
+    city = city.lower().strip()
+    if not country:
+        country = 'us'
+    else:
+        country = country.lower().strip()
+
+    if len(country) != 2:
+        error = f'Invalid country: {country}. ' \
+                f'It must be a two letter abbreviation such as US or GB.'
+        raise ValidationError(status_code=400, error_message=error)
+    if units:
+        units = units.strip().lower()
+    valid_units = {'standard', 'metric', 'imperial'}
+    if units not in valid_units:
+        error = f'Invalid units "{units}", it must be one of {valid_units}.'
+        raise ValidationError(status_code=400, error_message=error)
+    return city, country, units
