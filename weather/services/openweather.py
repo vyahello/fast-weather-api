@@ -1,3 +1,4 @@
+import http
 from typing import Any, Dict, Optional, Tuple
 
 import httpx
@@ -27,7 +28,7 @@ async def report(
         response: Response = await client.get(
             url=_report_url(query, api_key, units)
         )
-        if response.status_code != 200:
+        if http.HTTPStatus(response.status_code) != http.HTTPStatus.OK:
             raise ValidationError(response.text, response.status_code)
     forecast = response.json()['main']
     cache.set_weather(city, country, units, forecast)
@@ -48,11 +49,15 @@ def validate_units(
             f'Invalid country: {country}. '
             f'It must be a two letter abbreviation such as US or GB.'
         )
-        raise ValidationError(status_code=400, error_message=error)
+        raise ValidationError(
+            status_code=int(http.HTTPStatus.BAD_REQUEST), error_message=error
+        )
     if units:
         units = units.strip().lower()
     valid_units = {'standard', 'metric', 'imperial'}
     if units not in valid_units:
         error = f'Invalid units "{units}", it must be one of {valid_units}.'
-        raise ValidationError(status_code=400, error_message=error)
+        raise ValidationError(
+            status_code=int(http.HTTPStatus.BAD_REQUEST), error_message=error
+        )
     return city, country, units

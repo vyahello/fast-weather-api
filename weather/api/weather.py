@@ -1,3 +1,4 @@
+import http
 from typing import Any, Dict, Optional, Union
 
 import fastapi
@@ -22,4 +23,7 @@ async def weather(
             content=flaw.error_message, status_code=flaw.status_code
         )
     except Exception as flaw:
-        return fastapi.Response(content=str(flaw), status_code=500)
+        return fastapi.Response(
+            content=str(flaw),
+            status_code=int(http.HTTPStatus.INTERNAL_SERVER_ERROR),
+        )
