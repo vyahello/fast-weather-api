@@ -39,6 +39,8 @@ pip install -r requirements.txt
 python -m weather
 ```
 
+The please open a home page in your browser - [http://0.0.0.0:4444](http://0.0.0.0:4444)
+
 **[⬆ back to top](#fast-weather-rest-api)**
 
 ## Development notes
