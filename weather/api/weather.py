@@ -5,10 +5,10 @@ import fastapi
 from fastapi import Depends
 
 from weather.models.location import Location
-from weather.models.reports import Report
+from weather.models.reports import Report, ReportSubmittal
 from weather.models.validation import ValidationError
 from weather.services import openweather
-from weather.services.report import reports
+from weather.services.report import reports, add_report
 
 router = fastapi.APIRouter()
 
@@ -35,3 +35,16 @@ async def weather(
 async def all_reports() -> List[Report]:
     """Returns all weather reports."""
     return await reports()
+
+
+@router.post(
+    '/api/reports',
+    name='add_report',
+    status_code=int(http.HTTPStatus.CREATED),
+    response_model=Report,
+)
+async def post_report(report_submittal: ReportSubmittal) -> Report:
+    """Add a new weather report."""
+    return await add_report(
+        report_submittal.description, report_submittal.location
+    )
