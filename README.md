@@ -39,7 +39,7 @@ pip install -r requirements.txt
 python -m weather
 ```
 
-The please open a home page in your browser - [http://0.0.0.0:4444](http://0.0.0.0:4444)
+The please open a home page in your browser - [0.0.0.0:4444](http://0.0.0.0:4444)
 
 **[⬆ back to top](#fast-weather-rest-api)**
 
@@ -47,7 +47,58 @@ The please open a home page in your browser - [http://0.0.0.0:4444](http://0.0.0
 
 ### API endpoints
 
-TBD
+Please refer to the full documentation tree via [0.0.0.0:4444/docs](http://0.0.0.0:4444/docs)
+
+- GET **/api/weather/{city}**:
+  ```bash
+  curl 'http://0.0.0.0:4444/api/weather/lviv?country=UA'  
+  ```
+  _Response_: JSON
+  ```json
+  {
+    "temp":10.78,
+    "feels_like":9.43,
+    "temp_min":10.56,
+    "temp_max":11,
+    "pressure":1021,
+    "humidity":58
+  }
+  ```
+
+- GET **/api/reports**:
+  ```bash
+  curl http://0.0.0.0:4444/api/reports
+  ```
+  _Response_: JSON
+  ```json
+  [
+    {
+      "description":"Clouds over downtown.",
+      "location":{"city":"Lviv","country":"UA"},
+      "id_":"1bf17ed8-e0cb-4087-824b-ddfec0fb61ea",
+      "created_date":"2021-05-09T22:39:49.712594"},
+    {
+      "description":"Misty sunrise today, beautiful!",
+      "location":{"city":"Kyiv","country":"UA"},
+      "id_":"03cfa435-0b4d-4824-81ea-2a314d6d9196",
+      "created_date":"2021-05-09T22:39:49.711899"}
+  ]
+  ```
+- POST **/api/report**:
+  ```bash
+  curl -X POST http://0.0.0.0:4444/api/reports \
+        --header "Content-Type: application/json"  \
+        --data '{"description":"Frost on the roads", "location":{"city": "Portland", "country": "US"}}'
+  ```
+  _Response_: JSON
+  ```json
+  {
+    "description":"Frost on the roads",
+    "location":{"city":"Kyiv","country":"UA"},
+    "id_":"c1ce55ec-e7ea-49ef-9f35-62e176bae83d",
+    "created_date":"2021-05-09T22:51:57.822789"
+  }
+  ```
 
 ### Testing
 

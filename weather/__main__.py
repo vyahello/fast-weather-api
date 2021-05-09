@@ -54,9 +54,17 @@ def __configure_fake_data() -> None:
     We have /api/reports but until you submit new data each run, it's missing
     So this will give us something to start from.
     """
-    location = Location(city='Lviv', country='UA')
-    asyncio.run(report.add_report('Misty sunrise today, beautiful!', location))
-    asyncio.run(report.add_report('Clouds over downtown.', location))
+    asyncio.run(
+        report.add_report(
+            'Misty sunrise today, beautiful!',
+            Location(city='Lviv', country='UA'),
+        )
+    )
+    asyncio.run(
+        report.add_report(
+            'Clouds over downtown.', Location(city='Kyiv', country='UA')
+        )
+    )
 
 
 def easyrun(endpoint: WeatherEndpoint = WeatherEndpoint()) -> None:
