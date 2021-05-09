@@ -1,12 +1,14 @@
 import http
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import fastapi
 from fastapi import Depends
 
 from weather.models.location import Location
+from weather.models.reports import Report
 from weather.models.validation import ValidationError
 from weather.services import openweather
+from weather.services.report import reports
 
 router = fastapi.APIRouter()
 
@@ -27,3 +29,9 @@ async def weather(
             content=str(flaw),
             status_code=int(http.HTTPStatus.INTERNAL_SERVER_ERROR),
         )
+
+
+@router.get('/api/reports', name='reports', response_model=List[Report])
+async def all_reports() -> List[Report]:
+    """Returns all weather reports."""
+    return await reports()

@@ -15,7 +15,7 @@ async def reports() -> List[Report]:
 async def add_report(description: str, location: Location) -> Report:
     """Simulate saving to DB."""
     report = Report(
-        id=str(uuid.uuid4),
+        id_=str(uuid.uuid4()),
         description=description,
         location=location,
         created_date=datetime.now(),
