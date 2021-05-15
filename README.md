@@ -32,7 +32,8 @@
 ### Quick start
 
 ```bash
-git clone git@github.com/vyahello/fast-weather-api.git
+git clone git@github.com:vyahello/fast-weather-api.git
+cd fast-weather-api
 python -m venv venv
 . venv/bin/activate
 pip install -r requirements.txt
