@@ -8,7 +8,7 @@ from weather.models.location import Location
 from weather.models.reports import Report, ReportSubmittal
 from weather.models.validation import ValidationError
 from weather.services import openweather
-from weather.services.report import reports, add_report
+from weather.services.report import add_report, reports
 
 router = fastapi.APIRouter()
 

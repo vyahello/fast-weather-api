@@ -31,6 +31,8 @@
 
 ## Usage
 
+Please check deployed fast weather api app on the linux server http://138.68.249.217
+
 ### Quick start
 
 ```bash
@@ -102,6 +104,76 @@ Please refer to the full documentation tree via [0.0.0.0:4444/docs](http://0.0.0
     "created_date":"2021-05-09T22:51:57.822789"
   }
   ```
+
+### Deployment
+
+#### Installation
+
+Please follow next instructions on howto deploy an app on the linux server.
+
+- Install OS dependencies:
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt-get install -y -q build-essential git unzip zip nload tree
+sudo apt-get install -y -q python3-pip python3-dev python3-venv
+```
+- Create folder with logs:
+```bash
+mkdir /apps
+chmod 777 /apps
+mkdir /apps/logs
+mkdir /apps/logs/fastweather
+mkdir /apps/logs/fastweather/app_log
+```
+- Setup logs permissions:
+```bash
+apt install acl -y
+useradd -M vyahello
+usermod -L vyahello
+setfacl -m u:vyahello:rwx /apps/logs/fastweather
+```
+- Setup fast weather daemon:
+```bash
+cp server/fastweather.service /etc/systemd/system/
+systemctl start fastweather
+systemctl status fastweather
+systemctl enable fastweather  # enable on server startup
+```
+- Configure nginx:
+```bash
+sudo apt install nginx
+cp server/fastweather.nginx /etc/nginx/sites-enabled/
+update-rc.d nginx enable
+service nginx restart
+```
+
+#### Troubleshooting
+
+- Check nginx is working:
+```bash
+curl http://127.0.0.1
+```
+- Check fastweather service is working:
+```bash
+systemctl status fastweather
+```
+- Reload systemd daemon in case config changes:
+```bash
+systemctl daemon-reload
+```
+- Make sure python venv in installed on the server:
+```bash
+/usr/bin/python3.8 -m venv venv
+. venv/bin/activate
+python -m weather
+```
+- Debug server logs:
+```bash
+tail -f /apps/logs/fastweather/errors.log
+tail -f /apps/logs/fastweather/access.log
+```
+**[⬆ back to top](#fast-weather-rest-api)**
 
 ### Testing
 
