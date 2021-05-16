@@ -18,6 +18,8 @@
 - 3.7, 3.8, 3.9
 - asyncIO
 - [fastapi](https://fastapi.tiangolo.com/)
+- [nginx](https://www.nginx.com/)
+- [gunicorn](https://gunicorn.org/)
 
 ### Development
 

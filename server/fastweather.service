@@ -1,0 +1,24 @@
+[Unit]
+Description=gunicorn uvicorn service for Fast Weather Service API
+After=syslog.target
+
+[Service]
+ExecStart=/apps/fast-weather-api/venv/bin/gunicorn -b 127.0.0.1:8000 -w 4 -k uvicorn.workers.UvicornWorker __main__:weather_app --name weather_svc --chdir /apps/fast-weather-api/weather --access-logfile /apps/logs/fastweather/access.log --error-logfile /apps/logs/fastweather/errors.log --user vyahello
+
+# \/ \/ <- Added post recording for better restart perf.
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+# /\ /\ <- Added post recording for better restart perf.
+
+# Requires systemd version 211 or newer
+RuntimeDirectory=/apps/fast-weather-api/weather
+Restart=always
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name fastweatherapi.com http://138.68.249.217/;
+    server_name fastweatherapi.com 138.68.249.217;
     server_tokens off;
     charset utf-8;
 
