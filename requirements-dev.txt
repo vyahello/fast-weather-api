@@ -19,6 +19,7 @@ flake8-unused-arguments==0.0.6
 flake8-variables-names==0.0.4
 mypy==0.812
 pytest==6.2.3
+pytest-asyncio==0.15.1
 pytest-clarity==0.3.0a0
 pytest-cov==2.11.1
 pytest-mock==3.6.0
