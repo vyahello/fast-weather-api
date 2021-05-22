@@ -2,7 +2,10 @@ import pytest
 
 from tests.api.fastweather import FastWeather
 
-pytestmark = pytest.mark.asyncio
+pytestmark = [
+    pytest.mark.asyncio,
+    pytest.mark.usefixtures('start_weather_server')
+]
 
 
 async def test_weather_city(fastweather: FastWeather) -> None:
