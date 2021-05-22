@@ -10,8 +10,4 @@ __version__: str = '0.0.0'
 
 TEMPLATES_PATH: str = 'weather/templates/'
 STATIC_FILES_PATH: str = 'weather/static/'
-
-WEATHER_HOST: str = '0.0.0.0'
-WEATHER_PORT: int = 4444
-
 SETTINGS_PATH: Path = Path('settings.json')
