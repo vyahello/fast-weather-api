@@ -8,7 +8,7 @@ from starlette.staticfiles import StaticFiles
 
 from weather import SETTINGS_PATH, STATIC_FILES_PATH
 from weather.api import weather
-from weather.endpoint import WeatherEndpoint
+from weather.endpoint import Address
 from weather.models.location import Location
 from weather.services import openweather, report
 from weather.views import home
@@ -56,8 +56,8 @@ def __configure_fake_data() -> None:
     )
 
 
-def easyrun(endpoint: WeatherEndpoint) -> None:
+def easyrun(address: Address) -> None:
     __configure_routing()
     __configure_api_keys()
     __configure_fake_data()
-    uvicorn.run(weather_app, host=endpoint.host, port=endpoint.port)
+    uvicorn.run(weather_app, host=address.host, port=address.port)
