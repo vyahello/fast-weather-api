@@ -8,7 +8,7 @@ from starlette.staticfiles import StaticFiles
 
 from weather import SETTINGS_PATH, STATIC_FILES_PATH
 from weather.api import weather
-from weather.endpoint import Address
+from weather.address import Address
 from weather.models.location import Location
 from weather.services import openweather, report
 from weather.views import home

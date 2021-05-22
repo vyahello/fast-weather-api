@@ -1,5 +1,5 @@
 """Represents executable entrypoint for `weather` application."""
-from weather.endpoint import Address
+from weather.address import Address
 from weather.main import easyrun
 
 
