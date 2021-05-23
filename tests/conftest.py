@@ -35,8 +35,12 @@ def run_background_process(command: str) -> None:
     os.system(f'{command} /dev/null 2>&1 &')
 
 
-def kill_process_by_pattern(pattern: str) -> None:
+def kill_process_pattern(pattern: str) -> None:
     os.system(f'kill -9 {int(os.popen(f"pgrep -f {pattern}").read().strip())}')
+
+
+def kill_process(name: str) -> None:
+    os.system(f'pkill {name}')
 
 
 @pytest.fixture()
@@ -54,5 +58,5 @@ def start_weather_server(address: Address) -> None:
     run_background_process(command='python -m weather')
     wait_for_socket(address, ready=True)
     yield
-    kill_process_by_pattern(pattern=r"'\-m weather'")
+    kill_process('python')
     wait_for_socket(address, ready=False)

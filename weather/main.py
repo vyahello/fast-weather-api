@@ -1,6 +1,7 @@
 """Represents executable weather API."""
 import asyncio
 import json
+import os
 
 import fastapi
 import uvicorn
@@ -18,12 +19,15 @@ weather_app = fastapi.FastAPI()
 
 
 def __configure_api_keys() -> None:
-    if not SETTINGS_PATH.exists():
-        raise FileNotFoundError(
-            f'"{SETTINGS_PATH}" file not found, you cannot continue!'
-        )
-    with SETTINGS_PATH.open() as settings_stream:
-        openweather.api_key = json.load(settings_stream).get('api_key')
+    if os.environ.get('API_KEY'):
+        openweather.api_key = os.environ['API_KEY']
+    else:
+        if not SETTINGS_PATH.exists():
+            raise FileNotFoundError(
+                f'"{SETTINGS_PATH}" file not found, you cannot continue!'
+            )
+        with SETTINGS_PATH.open() as settings_stream:
+            openweather.api_key = json.load(settings_stream).get('api_key')
 
 
 def __configure_routing() -> None:

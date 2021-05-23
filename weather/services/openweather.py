@@ -21,7 +21,8 @@ async def report(
     city: str, country: str, units: str
 ) -> Optional[Dict[str, Any]]:
     city, country, units = validate_units(city, country, units)
-    if forecast := cache.get_weather(city, country, units):
+    forecast = cache.get_weather(city, country, units)
+    if forecast:
         return forecast
     query = f'{city},{country}'
     async with httpx.AsyncClient() as client:

@@ -8,7 +8,8 @@ addons:
     update: true
 install:
   - pip install pip -U
-  - pip install -r requirements-dev.txt -U
+  - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
 script:
   - ./analyse-source-code.sh
 after_success:
