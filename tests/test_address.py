@@ -1,11 +1,4 @@
-import pytest
-
 from weather.address import Address
-
-
-@pytest.fixture()
-def address() -> Address:
-    return Address()
 
 
 def test_host(address: Address) -> None:

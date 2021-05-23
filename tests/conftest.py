@@ -7,25 +7,52 @@ from tests.api.fastweather import FastWeather
 from weather.address import Address
 
 
-def __run_in_background(command: str, startup_delay: int = 2) -> None:
+def wait_for_socket(
+    address: Address, ready: bool, timeout_secs: int = 5, poll_secs: int = 1
+) -> None:
+    """Waits for connection to be down."""
+    end_time = time.time() + timeout_secs
+    while end_time > time.time():
+        curl_socket = (
+            os.popen(f'curl {address.with_protocol()}').read().strip()
+        )
+        if ready:
+            if curl_socket:
+                break
+            time.sleep(poll_secs)
+        else:
+            if not curl_socket:
+                break
+            time.sleep(poll_secs)
+    else:
+        raise TimeoutError(
+            f'Unable to start communication with {address} '
+            f'after {timeout_secs} seconds'
+        )
+
+
+def run_background_process(command: str) -> None:
     os.system(f'{command} /dev/null 2>&1 &')
-    time.sleep(startup_delay)
 
 
-def __kill_process(name: str, case_sensitive: bool = True) -> None:
-    command = 'pkill'
-    if case_sensitive:
-        command += ' -i '
-    os.system(f'{command} {name}')
+def kill_process_by_pattern(pattern: str) -> None:
+    os.system(f'kill -9 {int(os.popen(f"pgrep -f {pattern}").read().strip())}')
 
 
 @pytest.fixture()
-def fastweather() -> FastWeather:
-    return FastWeather(address=Address())
+def address() -> Address:
+    return Address()
 
 
-@pytest.fixture(scope='session')
-def start_weather_server() -> None:
-    __run_in_background(command='python -m weather')
+@pytest.fixture()
+def fastweather(address: Address) -> FastWeather:
+    return FastWeather(address)
+
+
+@pytest.fixture()
+def start_weather_server(address: Address) -> None:
+    run_background_process(command='python -m weather')
+    wait_for_socket(address, ready=True)
     yield
-    __kill_process(name='python')
+    kill_process_by_pattern(pattern=r"'\-m weather'")
+    wait_for_socket(address, ready=False)
