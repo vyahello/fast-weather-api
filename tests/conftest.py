@@ -1,5 +1,6 @@
-import time
 import os
+import sys
+import time
 
 import pytest
 
@@ -39,8 +40,9 @@ def kill_process_pattern(pattern: str) -> None:
     os.system(f'kill -9 {int(os.popen(f"pgrep -f {pattern}").read().strip())}')
 
 
-def kill_process(name: str) -> None:
-    os.system(f'pkill {name}')
+def kill_process(name: str, case_sensitive: bool) -> None:
+    command = f'pkill {("", "-i")[case_sensitive]} {name}'
+    os.system(command)
 
 
 @pytest.fixture()
@@ -58,5 +60,5 @@ def start_weather_server(address: Address) -> None:
     run_background_process(command='python -m weather')
     wait_for_socket(address, ready=True)
     yield
-    kill_process('python')
+    kill_process('python', case_sensitive=sys.platform == 'darwin')
     wait_for_socket(address, ready=False)
