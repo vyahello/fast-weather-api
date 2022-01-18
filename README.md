@@ -32,7 +32,7 @@
 
 ## Usage
 
-Please check deployed fast weather api app on the linux server http://138.68.249.217
+Please check deployed fast weather api app [fast-weather-ap.herokuapp.com](https://fast-weather-ap.herokuapp.com)
 
 ### Docker run
 

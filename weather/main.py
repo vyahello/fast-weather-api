@@ -61,7 +61,9 @@ def __configure_fake_data() -> None:
 
 
 def easyrun(address: Address) -> None:
-    __configure_routing()
-    __configure_api_keys()
     __configure_fake_data()
     uvicorn.run(weather_app, host=address.host, port=address.port)
+
+
+__configure_routing()
+__configure_api_keys()
