@@ -7,6 +7,7 @@
 [![Checked with flake8](https://img.shields.io/badge/flake8-checked-blue)](http://flake8.pycqa.org/)
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.md)
+[![Docker pulls](https://img.shields.io/docker/pulls/vyahello/fwa.svg)](https://hub.docker.com/repository/docker/vyahello/fwa)
 
 # Fast weather REST API
 
@@ -33,7 +34,15 @@
 
 Please check deployed fast weather api app on the linux server http://138.68.249.217
 
-### Quick start
+### Docker run
+
+```bash
+docker run -it -p 4444:4444 vyahello/fwa:0.1.0
+```
+
+Then please open a home page in your browser - [0.0.0.0:4444](http://0.0.0.0:4444)
+
+### Source code
 
 ```bash
 git clone git@github.com:vyahello/fast-weather-api.git
@@ -44,7 +53,7 @@ pip install -r requirements.txt
 python -m weather
 ```
 
-The please open a home page in your browser - [0.0.0.0:4444](http://0.0.0.0:4444)
+Then please open a home page in your browser - [0.0.0.0:4444](http://0.0.0.0:4444)
 
 **[⬆ back to top](#fast-weather-rest-api)**
 
@@ -105,7 +114,24 @@ Please refer to the full documentation tree via [0.0.0.0:4444/docs](http://0.0.0
   }
   ```
 
-### Deployment
+### Docker image build
+
+Build base docker image:
+```bash
+docker build --no-cache -t vyahello/fwa-base:test -f docker/Dockerfile.base .
+```
+
+Build main docker image:
+```bash
+docker build --no-cache -t vyahello/fwa:test -f docker/Dockerfile --build-arg VERSION=test .
+```
+
+Push docker image:
+```bash
+docker push vyahello/fwa:test
+```
+
+### Linux deployment
 
 #### Installation
 
