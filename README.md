@@ -34,6 +34,8 @@
 
 Please check deployed fast weather api app [fast-weather-ap.herokuapp.com](https://fast-weather-ap.herokuapp.com)
 
+![Demo](demo.gif)
+
 ### Docker run
 
 ```bash
