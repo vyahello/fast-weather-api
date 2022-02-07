@@ -176,6 +176,13 @@ update-rc.d nginx enable
 service nginx restart
 ```
 
+- Configule SSL for HTTPS
+```bash
+add-apt-repository ppa:certbot/certbot
+apt install python-certbot-nginx
+certbot --nginx -d <your-host-name>
+```
+
 #### Troubleshooting
 
 - Check nginx is working:
