@@ -32,7 +32,9 @@
 
 ## Usage
 
-Please check deployed fast weather api app [fast-weather-ap.herokuapp.com](https://fast-weather-ap.herokuapp.com)
+Please check deployed fast weather api app:
+ - https://fast-weather-ap.herokuapp.com (prod stage)
+ - http://178.62.222.165:5005 (test stage)
 
 ![Demo](demo.gif)
 
