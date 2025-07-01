@@ -10,3 +10,4 @@ httpie==2.4.0
 gunicorn==20.1.0 
 httptools==0.2.0 
 uvloop==0.15.2
+jinja2==3.0
